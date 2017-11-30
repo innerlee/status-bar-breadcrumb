@@ -46,12 +46,12 @@ function createBreadCrumbItemsFromFile(fileName, callback) {
             break;
         }
     }
-    
+
     // create list of breadcrumb items
     let breadcrumbItems = [];
     let parsedFileName = path.parse(selectedPath);
     let aggregatedPath = null;
-    
+
     // push root found node
     if (workspaceFound) {
         breadcrumbItems.push(
@@ -72,7 +72,7 @@ function createBreadCrumbItemsFromFile(fileName, callback) {
         );
         aggregatedPath = parsedFileName.root;
     }
-    
+
     // push itermediate parts
     for (
         let part of parsedFileName.dir.split(
@@ -89,7 +89,7 @@ function createBreadCrumbItemsFromFile(fileName, callback) {
     }
     breadcrumbItems.push(
         [
-            `$(chevron-right)\t${parsedFileName.base}`, 'Current file', 
+            `$(chevron-right)\t${parsedFileName.base}`, 'Current file',
             () => {}, path.join(aggregatedPath, parsedFileName.base)
         ]
     )
@@ -150,7 +150,7 @@ class NavigationQuickPickMenu extends Disposable {
                 this._currentCancellationToken = null;
                 if (selected == undefined)
                     return;
-                
+
                 if (_isDirectory(selected.detail))
                     this._dirCallback(selected.detail, selected.name);
                 else
@@ -169,7 +169,7 @@ class NavigationQuickPickMenu extends Disposable {
 
 /**
  * Class is untended to group and control multiple status-bar items at once
- *  providing multiple control methods like 
+ *  providing multiple control methods like
  *  @see [show](#MultipleStatusBarItem.show) and @see [hide](#MultipleStatusBarItem.hide)
  */
 class MultipleStatusBarItem extends Disposable {
@@ -182,8 +182,8 @@ class MultipleStatusBarItem extends Disposable {
     }
 
     /**
-     * Set group of status-bar items strictly aligned together 
-     * @param items 
+     * Set group of status-bar items strictly aligned together
+     * @param items
      * list of tuples in form (item_label, callable, callable_args)
      */
     setItems(items) {
@@ -199,7 +199,7 @@ class MultipleStatusBarItem extends Disposable {
             let command_handle = vscode.commands.registerCommand(
                 command, () => callable(args)
             );
-            
+
             r_item.text = text;
             r_item.command = command;
             r_item.tooltip = hint;
@@ -217,7 +217,7 @@ class MultipleStatusBarItem extends Disposable {
             item.show();
         }
     }
-    
+
     /**
      * Hide elements
      */
@@ -266,7 +266,7 @@ class StatusBarBreadCrumbExtension extends Disposable {
 
         // Subscribe for current document changed events
         vscode.window.onDidChangeActiveTextEditor(this._onNewTextEditor.bind(this));
-        
+
         // Create status bar item
         this._statusBarItem = new MultipleStatusBarItem();
 
@@ -283,7 +283,7 @@ class StatusBarBreadCrumbExtension extends Disposable {
 
         // dispose before recreating
         this._navigationMenu.dispose();
-        
+
         // initialize again
         this._initialize();
     }
@@ -310,7 +310,7 @@ class StatusBarBreadCrumbExtension extends Disposable {
 
     _showSameLevelFilesQuickMenu(dir) {
         log.info('Showing quick open menu for ' + dir);
-        
+
         // show directory in menu
         this._navigationMenu.showDir(dir);
     }
