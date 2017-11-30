@@ -69,11 +69,8 @@ function createBreadCrumbItemsFromFile(fileUri, callback) {
         selectedPath = path.relative(homeDir, fileName);
     }
     var ws = vscode.workspace.getWorkspaceFolder(fileUri);
-    log.info('fileName', fileName);
-    log.info('ws', ws);
     if (ws) {
         var wsd = ws.uri.fsPath;
-        log.info('wsd', wsd);
         selectedPath = path.relative(wsd, fileName);
         workspaceFound = true;
         selectedWorkspaceName = ws.name;
