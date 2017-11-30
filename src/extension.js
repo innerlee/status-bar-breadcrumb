@@ -24,9 +24,6 @@ function createBreadCrumbItemsFromFile(fileName, callback) {
     // this wall of code full of shit but do exactly what it should
     // no power to refactor it
     fileName = path.normalize(fileName);
-    if (!fileName.startsWith(path.sep)) {
-        fileName = path.sep + fileName;
-    }
     let selectedPath = fileName;
     let homeDir = path.normalize(os.homedir());
     let workspaceDirs = vscode.workspace.workspaceFolders;
@@ -42,6 +39,9 @@ function createBreadCrumbItemsFromFile(fileName, callback) {
     }
     for (let [name, wsd] of workspaceDirs.map(dir => [dir.name, dir.uri.path])) {
         wsd = path.normalize(wsd);
+        if (os.platform() === 'win32' && wsd.startsWith(path.sep)) {
+            wsd = wsd.substring(1);
+        }
         workspaceFound = fileName.includes(wsd);
         if (workspaceFound) {
             selectedPath = path.relative(wsd, fileName);
