@@ -54,8 +54,12 @@ function _isDirectory(file) {
 function createBreadCrumbItemsFromFile(fileName, callback) {
     // this wall of code full of shit but do exactly what it should
     // no power to refactor it
+    fileName = path.normalize(fileName);
+    if (!fileName.startsWith(path.sep)) {
+        fileName = path.sep + fileName;
+    }
     var selectedPath = fileName;
-    var homeDir = os.homedir();
+    var homeDir = path.normalize(os.homedir());
     var workspaceDirs = vscode.workspace.workspaceFolders;
     var homeFound = false;
     var workspaceFound = false;
@@ -79,6 +83,7 @@ function createBreadCrumbItemsFromFile(fileName, callback) {
                 name = _step$value[0],
                 wsd = _step$value[1];
 
+            wsd = path.normalize(wsd);
             workspaceFound = fileName.includes(wsd);
             if (workspaceFound) {
                 selectedPath = path.relative(wsd, fileName);
@@ -231,7 +236,7 @@ var NavigationQuickPickMenu = function (_Disposable) {
 
 /**
  * Class is untended to group and control multiple status-bar items at once
- *  providing multiple control methods like 
+ *  providing multiple control methods like
  *  @see [show](#MultipleStatusBarItem.show) and @see [hide](#MultipleStatusBarItem.hide)
  */
 
@@ -252,8 +257,8 @@ var MultipleStatusBarItem = function (_Disposable2) {
     }
 
     /**
-     * Set group of status-bar items strictly aligned together 
-     * @param items 
+     * Set group of status-bar items strictly aligned together
+     * @param items
      * list of tuples in form (item_label, callable, callable_args)
      */
 
