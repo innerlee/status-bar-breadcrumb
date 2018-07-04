@@ -392,9 +392,6 @@ class StatusBarBreadCrumbExtension extends Disposable {
 
     _validateFileUri(uri) {
         if (uri.scheme !== 'file') {
-            vscode.window.showWarningMessage(
-                `Sorry, but remote files (current file scheme ${uri.scheme}) are not supported`
-            );
             return false;
         }
         return true;
